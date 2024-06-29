@@ -67,6 +67,7 @@ func main() {
 			player.POST("/:player_id/category", controllers.AddCategory)
 			player.GET("/category", controllers.GetPlayerCategories)
 			player.GET("/:player_id/detail", controllers.GetPlayerDetail)
+			player.GET("/detail", controllers.GetAllPlayerDetails)
 		}
 
 		category := protected.Group("/organization/:id/category")

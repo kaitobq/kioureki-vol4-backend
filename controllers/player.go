@@ -217,3 +217,62 @@ func GetPlayerDetail(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"playerDetail": playerDetail})
 }
+
+func GetAllPlayerDetails(c *gin.Context) {
+    organizationID := c.Param("id")
+
+    var players []models.Player
+    if err := models.DB.Where("organization_id = ?", organizationID).Find(&players).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch players"})
+        return
+    }
+
+    var allPlayerDetails []PlayerCategoryDetail
+
+    for _, player := range players {
+        var playerCategories []models.PlayerCategory
+        if err := models.DB.Where("player_id = ?", player.ID).Find(&playerCategories).Error; err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch player categories"})
+            return
+        }
+
+        var categories []CategoryDetail
+        for _, playerCategory := range playerCategories {
+            var category models.Category
+            if err := models.DB.Where("id = ?", playerCategory.CategoryID).First(&category).Error; err != nil {
+                c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch category"})
+                return
+            }
+
+            var option models.CategoryOption
+            if err := models.DB.Where("id = ?", playerCategory.CategoryOptionID).First(&option).Error; err != nil {
+                c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch category option"})
+                return
+            }
+
+            categories = append(categories, CategoryDetail{
+                CategoryID:          category.ID,
+                CategoryName:        category.Name,
+                CategoryOptionID:    option.ID,
+                CategoryOptionValue: option.Value,
+            })
+        }
+
+        var medicalRecords []models.MedicalRecord
+        if err := models.DB.Where("player_id = ?", player.ID).Find(&medicalRecords).Error; err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch medical records"})
+            return
+        }
+
+        playerDetail := PlayerCategoryDetail{
+            PlayerID:       player.ID,
+            PlayerName:     player.Name,
+            Categories:     categories,
+            MedicalRecords: medicalRecords,
+        }
+
+        allPlayerDetails = append(allPlayerDetails, playerDetail)
+    }
+
+    c.JSON(http.StatusOK, gin.H{"playerDetails": allPlayerDetails})
+}
