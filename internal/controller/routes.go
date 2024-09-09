@@ -6,6 +6,11 @@ func SetUpRoutes(
 	r *gin.Engine,
 	userCtrl *UserController,
 ) {
-	r.POST("/signup", userCtrl.SignUp)
-	r.POST("/signin", userCtrl.SignIn)
+	v1 := r.Group("api/v1")
+
+	auth := v1.Group("auth")
+	{
+		auth.POST("/signup", userCtrl.SignUp)
+		auth.POST("/signin", userCtrl.SignIn)
+	}
 }
