@@ -7,4 +7,5 @@ func SetUpRoutes(
 	userCtrl *UserController,
 ) {
 	r.POST("/signup", userCtrl.SignUp)
+	r.POST("/signin", userCtrl.SignIn)
 }

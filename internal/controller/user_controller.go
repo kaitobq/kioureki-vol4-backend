@@ -31,5 +31,21 @@ func (ct *UserController) SignUp(c *gin.Context) {
 		return
 	}
 
+	c.JSON(http.StatusCreated, res)
+}
+
+func (ct *UserController) SignIn(c *gin.Context) {
+	req, err := request.NewSignInRequest(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := ct.uc.SignIn(req.Email, req.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, res)
 }
