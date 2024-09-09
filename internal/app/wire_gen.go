@@ -10,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-template/internal/app/config"
 	"go-template/internal/app/container"
+	"go-template/internal/controller"
+	"go-template/internal/infra/db"
+	"go-template/internal/usecase"
 	"go-template/pkg/database"
 )
 
@@ -17,13 +20,17 @@ import (
 
 func New() (*container.App, error) {
 	engine := provideGinEngine()
-	configConfig := config.New()
 	dbConfig := config.NewDBConfig()
-	db, err := database.New(dbConfig)
+	databaseDB, err := database.New(dbConfig)
 	if err != nil {
 		return nil, err
 	}
-	app := container.NewApp(engine, configConfig, db)
+	userRepository := db.NewUserRepository(databaseDB)
+	userUsecase := usecase.NewUserUsecase(userRepository)
+	userController := controller.NewUserController(userUsecase)
+	containerContainer := container.NewCtrl(userController)
+	configConfig := config.New()
+	app := container.NewApp(engine, containerContainer, configConfig, databaseDB)
 	return app, nil
 }
 

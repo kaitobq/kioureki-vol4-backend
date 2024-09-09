@@ -1,6 +1,12 @@
 package controller
 
-import "go-template/internal/usecase"
+import (
+	"go-template/internal/usecase"
+	"go-template/internal/usecase/request"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 type UserController struct {
 	uc usecase.UserUsecase
@@ -10,4 +16,20 @@ func NewUserController(uc usecase.UserUsecase) *UserController {
 	return &UserController{
 		uc: uc,
 	}
+}
+
+func (ct *UserController) SignUp(c *gin.Context) {
+	req, err := request.NewSignUpRequest(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := ct.uc.CreateUser(req.Name, req.Email, req.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }
