@@ -13,9 +13,10 @@ type userUsecase struct {
 	TokenService service.TokenService
 }
 
-func NewUserUsecase(repo repository.UserRepository) UserUsecase {
+func NewUserUsecase(repo repository.UserRepository, tokenService service.TokenService) UserUsecase {
 	return &userUsecase{
 		repo: repo,
+		TokenService: tokenService,
 	}
 }
 

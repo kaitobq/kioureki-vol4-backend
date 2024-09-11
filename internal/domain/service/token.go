@@ -15,8 +15,8 @@ import (
 type TokenService struct {
 }
 
-func NewTokenService() *TokenService {
-	return &TokenService{}
+func NewTokenService() TokenService {
+	return TokenService{}
 }
 
 
