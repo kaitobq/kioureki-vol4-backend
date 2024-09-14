@@ -45,3 +45,14 @@ func (r *organizationRepository) FindByID(id string) (*entity.Organization, erro
 
 	return &org, nil
 }
+
+func (r *organizationRepository) DeleteOrganization(id string) error {
+	query := `DELETE FROM organizations WHERE id = ?`
+
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

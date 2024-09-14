@@ -29,11 +29,11 @@ func (uc *organizationUsecase) CreateOrganization(name string, founderID string)
 		Name: name,
 	}
 
+// ユーザーが作成したい組織名と同じ名前の組織に所属していないかチェック
 	memberships, err := uc.membershipRepo.FindByUserID(founderID)
 	if err != nil {
 		return nil, err
 	}
-
 	if len(*memberships) != 0 {
 		for _, membership := range *memberships {
 			org, err := uc.repo.FindByID(membership.OrganizationID)
@@ -49,6 +49,17 @@ func (uc *organizationUsecase) CreateOrganization(name string, founderID string)
 
 	organization, err := uc.repo.CreateOrganization(org)
 	if err != nil {
+		return nil, err
+	}
+
+	err = uc.membershipRepo.CreateMembership(founderID, organization.ID)
+	if err != nil {
+		// 作成者が組織に所属できない場合はロールバック
+		err = uc.repo.DeleteOrganization(organization.ID)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create membership and rollback organization creation: %w", err)
+		}
+
 		return nil, err
 	}
 
