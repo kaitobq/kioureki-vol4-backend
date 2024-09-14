@@ -3,22 +3,28 @@ package container
 import (
 	"errors"
 	"fmt"
-	"go-template/internal/app/config"
-	"go-template/internal/controller"
-	"go-template/pkg/database"
+	"kioureki-vol4-backend/internal/app/config"
+	"kioureki-vol4-backend/internal/controller"
+	"kioureki-vol4-backend/pkg/database"
 
 	"github.com/gin-gonic/gin"
 )
 
 type container struct {
-	userCtrl *controller.UserController
+	userCtrl         *controller.UserController
+	organizationCtrl *controller.OrganizationController
+	userOrganizationMembershipCtrl *controller.UserOrganizationMembershipController
 }
 
 func NewCtrl(
-	userCtrl *controller.UserController,
+	userCtrl         *controller.UserController,
+	organizationCtrl *controller.OrganizationController,
+	userOrganizationMembershipCtrl *controller.UserOrganizationMembershipController,
 ) *container {
 	return &container{
 		userCtrl: userCtrl,
+		organizationCtrl: organizationCtrl,
+		userOrganizationMembershipCtrl: userOrganizationMembershipCtrl,
 	}
 }
 
@@ -29,7 +35,7 @@ type App struct {
 }
 
 func NewApp(r *gin.Engine, container *container, cfg *config.Config, db *database.DB) *App {
-	controller.SetUpRoutes(r, container.userCtrl)
+	controller.SetUpRoutes(r, container.userCtrl, container.organizationCtrl, container.userOrganizationMembershipCtrl)
 
 	return &App{
 		r: r,

@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"go-template/internal/domain/repository"
-	"go-template/internal/usecase/response"
+	"kioureki-vol4-backend/internal/domain/repository"
+	"kioureki-vol4-backend/internal/usecase/response"
 )
 
 type userOrganizationMembershipUsecase struct {

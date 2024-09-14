@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"go-template/internal/usecase"
-	"go-template/internal/usecase/request"
+	"kioureki-vol4-backend/internal/usecase"
+	"kioureki-vol4-backend/internal/usecase/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

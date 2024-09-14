@@ -8,12 +8,13 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-template/internal/app/config"
-	"go-template/internal/app/container"
-	"go-template/internal/controller"
-	"go-template/internal/infra/db"
-	"go-template/internal/usecase"
-	"go-template/pkg/database"
+	"kioureki-vol4-backend/internal/app/config"
+	"kioureki-vol4-backend/internal/app/container"
+	"kioureki-vol4-backend/internal/controller"
+	"kioureki-vol4-backend/internal/domain/service"
+	"kioureki-vol4-backend/internal/infra/db"
+	"kioureki-vol4-backend/internal/usecase"
+	"kioureki-vol4-backend/pkg/database"
 )
 
 // Injectors from wire.go:
@@ -26,9 +27,16 @@ func New() (*container.App, error) {
 		return nil, err
 	}
 	userRepository := db.NewUserRepository(databaseDB)
-	userUsecase := usecase.NewUserUsecase(userRepository)
+	tokenService := service.NewTokenService()
+	userUsecase := usecase.NewUserUsecase(userRepository, tokenService)
 	userController := controller.NewUserController(userUsecase)
-	containerContainer := container.NewCtrl(userController)
+	organizationRepository := db.NewOrganizationRepository(databaseDB)
+	userOrganizationMembershipRepository := db.NewUserOrganizationMembershipRepository(databaseDB)
+	organizationUsecase := usecase.NewOrganizationUsecase(organizationRepository, userOrganizationMembershipRepository)
+	organizationController := controller.NewOrganizationController(organizationUsecase, tokenService)
+	userOrganizationMembershipUsecase := usecase.NewUserOrganizationMembershipUsecase(userOrganizationMembershipRepository)
+	userOrganizationMembershipController := controller.NewUserOrganizationMembershipController(userOrganizationMembershipUsecase)
+	containerContainer := container.NewCtrl(userController, organizationController, userOrganizationMembershipController)
 	configConfig := config.New()
 	app := container.NewApp(engine, containerContainer, configConfig, databaseDB)
 	return app, nil

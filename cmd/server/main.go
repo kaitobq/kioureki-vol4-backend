@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-template/internal/app"
+	"kioureki-vol4-backend/internal/app"
 	"log"
 )
 

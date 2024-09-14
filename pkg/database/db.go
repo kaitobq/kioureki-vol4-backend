@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"go-template/internal/app/config"
+	"kioureki-vol4-backend/internal/app/config"
 
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/mysqldialect"

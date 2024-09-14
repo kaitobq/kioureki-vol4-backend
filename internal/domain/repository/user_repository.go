@@ -1,6 +1,7 @@
 package repository
 
-import "go-template/internal/domain/entity"
+import "kioureki-vol4-backend/internal/domain/entity"
+
 
 type UserRepository interface {
 	CheckDuplicateEmail(email string) (bool, error)

@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"fmt"
-	"go-template/internal/domain/entity"
-	"go-template/internal/domain/repository"
-	"go-template/internal/domain/service"
-	"go-template/internal/usecase/response"
+	"kioureki-vol4-backend/internal/domain/entity"
+	"kioureki-vol4-backend/internal/domain/repository"
+	"kioureki-vol4-backend/internal/domain/service"
+	"kioureki-vol4-backend/internal/usecase/response"
 )
 
 type userUsecase struct {

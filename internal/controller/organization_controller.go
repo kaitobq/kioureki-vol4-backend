@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"go-template/internal/domain/service"
-	"go-template/internal/usecase"
-	"go-template/internal/usecase/request"
+	"kioureki-vol4-backend/internal/domain/service"
+	"kioureki-vol4-backend/internal/usecase"
+	"kioureki-vol4-backend/internal/usecase/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,8 +14,11 @@ type OrganizationController struct {
 	tokenService service.TokenService
 }
 
-func NewOrganizationController() *OrganizationController {
-	return &OrganizationController{}
+func NewOrganizationController(uc usecase.OrganizationUsecase, tokenService service.TokenService) *OrganizationController {
+	return &OrganizationController{
+		uc: uc,
+		tokenService: tokenService,
+	}
 }
 
 // TODO: setting middleware

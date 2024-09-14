@@ -1,6 +1,7 @@
 package usecase
 
-import "go-template/internal/usecase/response"
+import "kioureki-vol4-backend/internal/usecase/response"
+
 
 type UserUsecase interface {
 	CreateUser(name, email, password string) (*response.SignUpResponse, error)

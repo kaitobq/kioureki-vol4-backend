@@ -2,9 +2,9 @@ package db
 
 import (
 	"fmt"
-	"go-template/internal/domain/entity"
-	"go-template/internal/domain/repository"
-	"go-template/pkg/database"
+	"kioureki-vol4-backend/internal/domain/entity"
+	"kioureki-vol4-backend/internal/domain/repository"
+	"kioureki-vol4-backend/pkg/database"
 
 	"golang.org/x/crypto/bcrypt"
 )

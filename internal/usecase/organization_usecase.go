@@ -2,9 +2,9 @@ package usecase
 
 import (
 	"fmt"
-	"go-template/internal/domain/entity"
-	"go-template/internal/domain/repository"
-	"go-template/internal/usecase/response"
+	"kioureki-vol4-backend/internal/domain/entity"
+	"kioureki-vol4-backend/internal/domain/repository"
+	"kioureki-vol4-backend/internal/usecase/response"
 )
 
 type organizationUsecase struct {
