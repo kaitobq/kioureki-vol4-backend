@@ -38,3 +38,16 @@ func (r *organizationRepository) CreateOrganization(org entity.Organization) (*e
 
 	return &org, nil
 }
+
+func (r *organizationRepository) FindByID(id uint) (*entity.Organization, error) {
+	query := `SELECT * FROM organizations WHERE id = ?`
+
+	row := r.db.QueryRow(query, id)
+
+	var org entity.Organization
+	if err := row.Scan(&org.ID, &org.Name, &org.CreatedAt, &org.UpdatedAt); err != nil {
+		return nil, err
+	}
+
+	return &org, nil
+}
