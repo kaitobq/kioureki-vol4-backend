@@ -10,13 +10,13 @@ import (
 
 type userUsecase struct {
 	repo         repository.UserRepository
-	TokenService service.TokenService
+	tokenService service.TokenService
 }
 
 func NewUserUsecase(repo repository.UserRepository, tokenService service.TokenService) UserUsecase {
 	return &userUsecase{
 		repo: repo,
-		TokenService: tokenService,
+		tokenService: tokenService,
 	}
 }
 
@@ -45,12 +45,12 @@ func (uc *userUsecase) CreateUser(name, email, password string) (*response.SignU
 		return nil, err
 	}
 
-	token, err := uc.TokenService.GenerateTokenFromID(uint(*id))
+	token, err := uc.tokenService.GenerateTokenFromID(uint(*id))
 	if err != nil {
 		return nil, err
 	}
 
-	exp, err := uc.TokenService.ExtractExpFromToken(token)
+	exp, err := uc.tokenService.ExtractExpFromToken(token)
 	if err != nil {
 		return nil, err
 	}
@@ -69,12 +69,12 @@ func (uc *userUsecase) SignIn(email, password string) (*response.SignInResponse,
 		return nil, err
 	}
 	
-	token, err := uc.TokenService.GenerateTokenFromID(user.ID)
+	token, err := uc.tokenService.GenerateTokenFromID(user.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	exp, err := uc.TokenService.ExtractExpFromToken(token)
+	exp, err := uc.tokenService.ExtractExpFromToken(token)
 	if err != nil {
 		return nil, err
 	}
