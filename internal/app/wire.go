@@ -24,6 +24,7 @@ func New() (*container.App, error) {
 		
 		// service
 		service.NewTokenService,
+		service.NewULIDService,
 		
 		container.NewApp,
 		container.NewCtrl,

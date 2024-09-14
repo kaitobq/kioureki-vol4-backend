@@ -31,21 +31,15 @@ func (r *userRepository) CheckDuplicateEmail(email string) (bool, error) {
 	return exists, nil
 }
 
-func (r *userRepository) CreateUser(user entity.User) (*uint, error) {
-	query := `INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+func (r *userRepository) CreateUser(user entity.User) error {
+	query := `INSERT INTO users (id, name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 	
-	result, err := r.db.Exec(query, user.Name, user.Email, user.Password)
+	_, err := r.db.Exec(query, user.ID, user.Name, user.Email, user.Password)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	id, err := result.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-
-	userID := uint(id)
-	return &userID, nil
+	return nil
 }
 
 func (r *userRepository) HashPassword(password string) (string, error) {

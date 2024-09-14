@@ -17,7 +17,7 @@ func NewUserOrganizationMembershipRepository(db *database.DB) repository.UserOrg
 	}
 }
 
-func (r *userOrganizationMembershipRepository) CreateMembership(userID, orgID uint) error {
+func (r *userOrganizationMembershipRepository) CreateMembership(userID string, orgID string) error {
 	query := `INSERT INTO user_organization_memberships (user_id, organization_id, created_at, updated_at) VALUES (?, ?, ?, ?)`
 
 	now := time.Now()
@@ -29,7 +29,7 @@ func (r *userOrganizationMembershipRepository) CreateMembership(userID, orgID ui
 	return nil
 }
 
-func (r *userOrganizationMembershipRepository) FindByUserID(userID uint) (*[]entity.UserOrganizationMembership, error) {
+func (r *userOrganizationMembershipRepository) FindByUserID(userID string) (*[]entity.UserOrganizationMembership, error) {
 	query := `SELECT * FROM user_organization_memberships WHERE user_id = ?`
 
 	rows, err := r.db.Query(query, userID)

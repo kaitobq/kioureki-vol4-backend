@@ -51,6 +51,7 @@ require (
 	github.com/google/wire v0.6.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/newrelic/go-agent/v3/integrations/nrmysql v1.2.2
+	github.com/oklog/ulid/v2 v2.1.0
 	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
 	github.com/uptrace/bun/dialect/mysqldialect v1.2.3

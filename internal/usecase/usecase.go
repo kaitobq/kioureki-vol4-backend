@@ -9,9 +9,9 @@ type UserUsecase interface {
 }
 
 type OrganizationUsecase interface {
-	CreateOrganization(name string, founderID uint) (*response.CreateOrganizationResponse, error)
+	CreateOrganization(name string, founderID string) (*response.CreateOrganizationResponse, error)
 }
 
 type UserOrganizationMembershipUsecase interface {
-	CreateMembership(userID, organizationID uint) (*response.CreateMembershipResponse, error)
+	CreateMembership(userID string, organizationID string) (*response.CreateMembershipResponse, error)
 }

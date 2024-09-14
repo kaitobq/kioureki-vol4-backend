@@ -4,23 +4,28 @@ import (
 	"fmt"
 	"kioureki-vol4-backend/internal/domain/entity"
 	"kioureki-vol4-backend/internal/domain/repository"
+	"kioureki-vol4-backend/internal/domain/service"
 	"kioureki-vol4-backend/internal/usecase/response"
 )
 
 type organizationUsecase struct {
 	repo repository.OrganizationRepository
 	membershipRepo repository.UserOrganizationMembershipRepository
+	ulidService service.ULIDService
 }
 
-func NewOrganizationUsecase(repo repository.OrganizationRepository, membershipRepo repository.UserOrganizationMembershipRepository) OrganizationUsecase {
+func NewOrganizationUsecase(repo repository.OrganizationRepository, membershipRepo repository.UserOrganizationMembershipRepository, ulidService service.ULIDService) OrganizationUsecase {
 	return &organizationUsecase{
 		repo: repo,
 		membershipRepo: membershipRepo,
+		ulidService: ulidService,
 	}
 }
 
-func (uc *organizationUsecase) CreateOrganization(name string, founderID uint) (*response.CreateOrganizationResponse, error) {
+func (uc *organizationUsecase) CreateOrganization(name string, founderID string) (*response.CreateOrganizationResponse, error) {
+	id := uc.ulidService.GenerateULID()
 	org := entity.Organization{
+		ID: id,
 		Name: name,
 	}
 

@@ -20,7 +20,7 @@ func NewTokenService() TokenService {
 }
 
 
-func (ts *TokenService) GenerateTokenFromID(id uint) (string, error) {
+func (ts *TokenService) GenerateTokenFromID(id string) (string, error) {
 	tokenLifeSpanStr := os.Getenv("TOKEN_LIFE_SPAN")
 	if(len(tokenLifeSpanStr) == 0) {
 		return "", fmt.Errorf("TOKEN_LIFE_SPAN is not set in the environment")
@@ -58,28 +58,28 @@ func (ts *TokenService) TokenValid(c *gin.Context) (bool, error) {
 	return true, nil
 }
 
-func (ts *TokenService) ExtractIDFromContext(c *gin.Context) (uint, error) {
+func (ts *TokenService) ExtractIDFromContext(c *gin.Context) (string, error) {
 	tokenStr, err := getTokenStringFromRequestHeader(c)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
 	token, err := parseToken(tokenStr)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return 0, errors.New("error while parsing claims")
+		return "", errors.New("error while parsing claims")
 	}
 
-	id, ok := claims["id"].(float64)
+	id, ok := claims["id"].(string)
 	if !ok {
-		return 0, errors.New("error while parsing id")
+		return "", errors.New("error while parsing id")
 	}
 
-	return uint(id), nil
+	return id, nil
 }
 
 func (ts *TokenService) ExtractExpFromToken(tokenStr string) (*time.Time, error) {

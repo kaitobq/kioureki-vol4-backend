@@ -15,7 +15,7 @@ func NewUserOrganizationMembershipUsecase(repo repository.UserOrganizationMember
 	}
 }
 
-func (u *userOrganizationMembershipUsecase) CreateMembership(userID, organizationID uint) (*response.CreateMembershipResponse, error) {
+func (u *userOrganizationMembershipUsecase) CreateMembership(userID string, organizationID string) (*response.CreateMembershipResponse, error) {
 	err := u.repo.CreateMembership(userID, organizationID)
 	if err != nil {
 		return nil, err

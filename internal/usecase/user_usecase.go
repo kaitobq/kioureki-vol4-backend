@@ -11,12 +11,14 @@ import (
 type userUsecase struct {
 	repo         repository.UserRepository
 	tokenService service.TokenService
+	ulidService service.ULIDService
 }
 
-func NewUserUsecase(repo repository.UserRepository, tokenService service.TokenService) UserUsecase {
+func NewUserUsecase(repo repository.UserRepository, tokenService service.TokenService, ulidService service.ULIDService) UserUsecase {
 	return &userUsecase{
 		repo: repo,
 		tokenService: tokenService,
+		ulidService: ulidService,
 	}
 }
 
@@ -33,19 +35,21 @@ func (uc *userUsecase) CreateUser(name, email, password string) (*response.SignU
 	if err != nil {
 		return nil, err
 	}
-	
+
+	id := uc.ulidService.GenerateULID()
 	user := entity.User{
+		ID:       id,
 		Name:     name,
 		Email:    email,
 		Password: hashedPassword,
 	}
 
-	id, err := uc.repo.CreateUser(user)
+	err = uc.repo.CreateUser(user)
 	if err != nil {
 		return nil, err
 	}
 
-	token, err := uc.tokenService.GenerateTokenFromID(uint(*id))
+	token, err := uc.tokenService.GenerateTokenFromID(id)
 	if err != nil {
 		return nil, err
 	}

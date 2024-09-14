@@ -3,7 +3,7 @@ package entity
 import "time"
 
 type Organization struct {
-	ID 	      uint
+	ID 	      string
 	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
