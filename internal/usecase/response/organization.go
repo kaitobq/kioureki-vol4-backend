@@ -3,7 +3,8 @@ package response
 import "time"
 
 type OrganizationResponse struct {
-	Name      string `json:"name"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -13,10 +14,11 @@ type CreateOrganizationResponse struct {
 	Organization OrganizationResponse `json:"organization"`
 }
 
-func NewCreateOrganizationResponse(name string, createdAt time.Time, updatedAt time.Time) (*CreateOrganizationResponse, error) {
+func NewCreateOrganizationResponse(id string, name string, createdAt time.Time, updatedAt time.Time) (*CreateOrganizationResponse, error) {
 	return &CreateOrganizationResponse{
 		Message: "Organization created successfully",
 		Organization: OrganizationResponse{
+			ID:        id,
 			Name:      name,
 			CreatedAt: createdAt,
 			UpdatedAt: updatedAt,

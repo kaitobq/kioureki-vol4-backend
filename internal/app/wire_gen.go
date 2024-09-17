@@ -37,7 +37,10 @@ func New() (*container.App, error) {
 	organizationController := controller.NewOrganizationController(organizationUsecase, tokenService)
 	userOrganizationMembershipUsecase := usecase.NewUserOrganizationMembershipUsecase(userOrganizationMembershipRepository)
 	userOrganizationMembershipController := controller.NewUserOrganizationMembershipController(userOrganizationMembershipUsecase)
-	containerContainer := container.NewCtrl(userController, organizationController, userOrganizationMembershipController)
+	userOrganizationInvitationRepository := db.NewUserOrganizationInvitationRepository(databaseDB)
+	userOrganizationInvitationUsecase := usecase.NewUserOrganizationInvitationUsecase(userOrganizationInvitationRepository, ulidService, userRepository)
+	userOrganizationInvitationController := controller.NewUserOrganizationInvitationController(userOrganizationInvitationUsecase, tokenService)
+	containerContainer := container.NewCtrl(userController, organizationController, userOrganizationMembershipController, userOrganizationInvitationController, tokenService)
 	configConfig := config.New()
 	app := container.NewApp(engine, containerContainer, configConfig, databaseDB)
 	return app, nil

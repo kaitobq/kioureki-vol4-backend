@@ -63,7 +63,7 @@ func (uc *userUsecase) CreateUser(name, email, password string) (*response.SignU
 }
 
 func (uc *userUsecase) SignIn(email, password string) (*response.SignInResponse, error) {
-	user, err := uc.repo.GetUserByEmail(email)
+	user, err := uc.repo.FindByEmail(email)
 	if err != nil {
 		return nil, err
 	}

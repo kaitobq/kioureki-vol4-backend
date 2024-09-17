@@ -8,5 +8,6 @@ type UserRepository interface {
 	CreateUser(user entity.User) error
 	HashPassword(password string) (string, error)
 	ComparePassword(hashedPassword, password string) error
-	GetUserByEmail(email string) (*entity.User, error)
+	FindByEmail(email string) (*entity.User, error)
+	FindByID(id string) (*entity.User, error)
 }

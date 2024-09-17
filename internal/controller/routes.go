@@ -1,12 +1,19 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"kioureki-vol4-backend/internal/domain/service"
+	"kioureki-vol4-backend/internal/middleware"
 
-func SetUpRoutes(
+	"github.com/gin-gonic/gin"
+)
+
+func SetUpRoutes(// TODO add middleware
 	r *gin.Engine,
 	userCtrl *UserController,
 	organizationCtrl *OrganizationController,
-	userOrganizationMembershipCtrl *UserOrganizationMembershipController,
+	membershipCtrl *UserOrganizationMembershipController,
+	invitationCtrl *UserOrganizationInvitationController,
+	tokenService service.TokenService,
 ) {
 	v1 := r.Group("api/v1")
 
@@ -17,12 +24,20 @@ func SetUpRoutes(
 	}
 
 	org := v1.Group("organization")
+	org.Use(middleware.AuthMiddleware(tokenService))
 	{
 		org.POST("", organizationCtrl.CreateOrganization)
 	}
 
 	membership := v1.Group("membership")
+	membership.Use(middleware.AuthMiddleware(tokenService))
 	{
-		membership.POST("", userOrganizationMembershipCtrl.CreateMembership)
+		membership.POST("", membershipCtrl.CreateMembership)
+	}
+
+	invitation := v1.Group("invitation")
+	invitation.Use(middleware.AuthMiddleware(tokenService))
+	{
+		invitation.POST("", invitationCtrl.CreateInvitation)
 	}
 }

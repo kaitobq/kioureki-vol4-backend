@@ -41,7 +41,7 @@ func (r *userOrganizationMembershipRepository) FindByUserID(userID string) (*[]e
 	var memberships []entity.UserOrganizationMembership
 	for rows.Next() {
 		var membership entity.UserOrganizationMembership
-		if err := rows.Scan(&membership.ID, &membership.UserID, &membership.OrganizationID, &membership.CreatedAt, &membership.UpdatedAt); err != nil {
+		if err := rows.Scan(&membership.ID, &membership.UserID, &membership.OrganizationID, &membership.Role, &membership.CreatedAt, &membership.UpdatedAt); err != nil {
 			return nil, err
 		}
 		memberships = append(memberships, membership)

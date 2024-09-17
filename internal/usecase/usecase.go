@@ -15,3 +15,7 @@ type OrganizationUsecase interface {
 type UserOrganizationMembershipUsecase interface {
 	CreateMembership(userID string, organizationID string) (*response.CreateMembershipResponse, error)
 }
+
+type UserOrganizationInvitationUsecase interface {
+	CreateInvitation(orgID, userID, invitedBy string) (*response.CreateInvitationResponse, error)
+}

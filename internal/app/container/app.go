@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"kioureki-vol4-backend/internal/app/config"
 	"kioureki-vol4-backend/internal/controller"
+	"kioureki-vol4-backend/internal/domain/service"
 	"kioureki-vol4-backend/pkg/database"
 
 	"github.com/gin-gonic/gin"
@@ -13,18 +14,24 @@ import (
 type container struct {
 	userCtrl         *controller.UserController
 	organizationCtrl *controller.OrganizationController
-	userOrganizationMembershipCtrl *controller.UserOrganizationMembershipController
+	membershipCtrl *controller.UserOrganizationMembershipController
+	invitationCtrl *controller.UserOrganizationInvitationController
+	tokenService service.TokenService
 }
 
 func NewCtrl(
 	userCtrl         *controller.UserController,
 	organizationCtrl *controller.OrganizationController,
-	userOrganizationMembershipCtrl *controller.UserOrganizationMembershipController,
+	membershipCtrl *controller.UserOrganizationMembershipController,
+	invitationCtrl *controller.UserOrganizationInvitationController,
+	tokenService service.TokenService,
 ) *container {
 	return &container{
 		userCtrl: userCtrl,
 		organizationCtrl: organizationCtrl,
-		userOrganizationMembershipCtrl: userOrganizationMembershipCtrl,
+		membershipCtrl: membershipCtrl,
+		invitationCtrl: invitationCtrl,
+		tokenService: tokenService,
 	}
 }
 
@@ -35,7 +42,14 @@ type App struct {
 }
 
 func NewApp(r *gin.Engine, container *container, cfg *config.Config, db *database.DB) *App {
-	controller.SetUpRoutes(r, container.userCtrl, container.organizationCtrl, container.userOrganizationMembershipCtrl)
+	controller.SetUpRoutes(
+		r,
+		container.userCtrl,
+		container.organizationCtrl,
+		container.membershipCtrl,
+		container.invitationCtrl,
+		container.tokenService,
+	)
 
 	return &App{
 		r: r,
