@@ -33,3 +33,7 @@ func (ct *UserOrganizationMembershipController) CreateMembership(c *gin.Context)
 
 	c.JSON(http.StatusOK, res)
 }
+
+func (ct *UserOrganizationMembershipController) DeleteMembership(c *gin.Context) {
+
+}

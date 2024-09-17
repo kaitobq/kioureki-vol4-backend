@@ -52,7 +52,8 @@ func (uc *organizationUsecase) CreateOrganization(name string, founderID string)
 		return nil, err
 	}
 
-	err = uc.membershipRepo.CreateMembership(founderID, organization.ID)
+	role := "owner"
+	err = uc.membershipRepo.CreateMembership(founderID, organization.ID, role)
 	if err != nil {
 		// 作成者が組織に所属できない場合はロールバック
 		err = uc.repo.DeleteOrganization(organization.ID)

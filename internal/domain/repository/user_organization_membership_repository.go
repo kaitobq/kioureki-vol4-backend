@@ -4,6 +4,6 @@ import "kioureki-vol4-backend/internal/domain/entity"
 
 
 type UserOrganizationMembershipRepository interface {
-	CreateMembership(userID string, orgID string) error
+	CreateMembership(userID, orgID, role string) error
 	FindByUserID(userID string) (*[]entity.UserOrganizationMembership, error)
 }
