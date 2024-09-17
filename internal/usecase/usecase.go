@@ -13,7 +13,7 @@ type OrganizationUsecase interface {
 }
 
 type UserOrganizationMembershipUsecase interface {
-	CreateMembership(userID string, organizationID string) (*response.CreateMembershipResponse, error)
+	DeleteMembership(executorID, deleteUserID, organizationID string) (*response.DeleteMembershipResponse, error)
 }
 
 type UserOrganizationInvitationUsecase interface {

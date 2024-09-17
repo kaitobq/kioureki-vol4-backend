@@ -36,7 +36,7 @@ func New() (*container.App, error) {
 	organizationUsecase := usecase.NewOrganizationUsecase(organizationRepository, userOrganizationMembershipRepository, ulidService)
 	organizationController := controller.NewOrganizationController(organizationUsecase, tokenService)
 	userOrganizationMembershipUsecase := usecase.NewUserOrganizationMembershipUsecase(userOrganizationMembershipRepository)
-	userOrganizationMembershipController := controller.NewUserOrganizationMembershipController(userOrganizationMembershipUsecase)
+	userOrganizationMembershipController := controller.NewUserOrganizationMembershipController(userOrganizationMembershipUsecase, tokenService)
 	userOrganizationInvitationRepository := db.NewUserOrganizationInvitationRepository(databaseDB)
 	userOrganizationInvitationUsecase := usecase.NewUserOrganizationInvitationUsecase(userOrganizationInvitationRepository, ulidService, userRepository)
 	userOrganizationInvitationController := controller.NewUserOrganizationInvitationController(userOrganizationInvitationUsecase, tokenService)

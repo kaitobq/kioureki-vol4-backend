@@ -32,7 +32,7 @@ func SetUpRoutes(
 	membership := v1.Group("membership")
 	membership.Use(middleware.AuthMiddleware(tokenService))
 	{
-		membership.POST("", membershipCtrl.CreateMembership)
+		membership.DELETE("", membershipCtrl.DeleteMembership)
 	}
 
 	invitation := v1.Group("invitation")

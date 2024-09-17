@@ -24,7 +24,7 @@ func NewUserOrganizationInvitationController(uc usecase.UserOrganizationInvitati
 func (ct *UserOrganizationInvitationController) CreateInvitation(c *gin.Context) {
 	req, err := request.NewCreateInvitationRequest(c)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

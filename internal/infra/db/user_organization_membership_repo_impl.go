@@ -49,3 +49,26 @@ func (r *userOrganizationMembershipRepository) FindByUserID(userID string) (*[]e
 
 	return &memberships, nil
 }
+
+func (r *userOrganizationMembershipRepository) DeleteMembership(userID, orgID string) error {
+	query := `DELETE FROM user_organization_memberships WHERE user_id = ? AND organization_id = ?`
+
+	_, err := r.db.Exec(query, userID, orgID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *userOrganizationMembershipRepository) GetRole(userID, orgID string) (string, error) {
+	query := `SELECT role FROM user_organization_memberships WHERE user_id = ? AND organization_id = ?`
+
+	var role string
+	err := r.db.QueryRow(query, userID, orgID).Scan(&role)
+	if err != nil {
+		return "", err
+	}
+
+	return role, nil
+}
