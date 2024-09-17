@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetUpRoutes(// TODO add middleware
+func SetUpRoutes(
 	r *gin.Engine,
 	userCtrl *UserController,
 	organizationCtrl *OrganizationController,

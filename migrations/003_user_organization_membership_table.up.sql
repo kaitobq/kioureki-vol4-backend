@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS user_organization_memberships (
+    -- TODO fix id to ulid
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id char(26) NOT NULL,
     organization_id char(26) NOT NULL,

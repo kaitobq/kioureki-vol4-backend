@@ -21,7 +21,6 @@ func NewOrganizationController(uc usecase.OrganizationUsecase, tokenService serv
 	}
 }
 
-// TODO: setting middleware
 func (ct *OrganizationController) CreateOrganization(c *gin.Context) {
 	req, err := request.NewCreateOrganizationRequest(c)
 	if err != nil {
